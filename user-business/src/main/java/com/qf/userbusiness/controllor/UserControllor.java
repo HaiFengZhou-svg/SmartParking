@@ -2,13 +2,11 @@ package com.qf.userbusiness.controllor;
 
 import com.qf.userbusiness.domain.entity.User;
 import com.qf.userbusiness.service.UserService;
+import com.qf.userbusiness.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,61 +22,97 @@ public class UserControllor {
     RestTemplate restTemplate;
 
     /**
-     * 调用waller模块的方法
+     * 调用waller模块查看钱包信息的方法
      */
     @GetMapping("/test/{id}")
-    public String USE(@PathVariable("id") Integer id){
-
-        //System.out.println(id);
-
+    public Result USE(@PathVariable("id") Integer id){
+        try{
             ResponseEntity<String> entity = restTemplate.getForEntity(
-
-                //访问另外的模块的功能的接口地址  地址：端口+前缀/参数
-                "http://localhost:9001/wallet/selcect/{user_id}", String.class,id);
-
-
-                 System.out.println(entity.getBody().toString());
-
-                 return entity.toString();
+                    //访问另外的模块的功能的接口地址  地址：端口+前缀.../参数
+                    "http://localhost:9001/wallet/selcect/{user_id}", String.class,id);
+            return Result.success( entity );
+        }catch (Exception e){
+            return Result.error();
+        }
     }
+
+
+
+
+
+
+
+
+
     /**
-     * 登陆方法
+     * 用户模块的登陆方法
      */
     @GetMapping("/login")
-    public List<User> tologin(){
+    public Result tologin(){
 
-        List<User> userList = userService.selectAll();
-
-     /*   ResponseEntity<String> entity = restTemplate.getForEntity(
-
-                //访问另外的模块的功能的接口地址  地址：端口+前缀/参数
-                "http://localhost:8080/test/{id}/{name}", String.class, 888, "my");
-
-        System.out.println(entity.getBody().toString());*/
-
-        return  userList ;
+        try{
+            List<User> userList = userService.selectAll();
+            return Result.success( userList );
+        }catch (Exception e){
+            return  Result.error() ;
+        }
     }
 
     /**
-     * 注册方法
+     * 用户模块注册方法
      */
     @GetMapping("/register")
-    public int toregister(User user){
-
-        int register = userService.register( user );
-
-        return register;
+    public Result toregister(User user){
+        try{
+            int register = userService.register( user );
+            return Result.success(register);
+        }catch (Exception e){
+            return Result.error();
+        }
     }
 
     /**
-     * 根据id查看个人信息
+     * 用户模块注册前的用户名验证
      */
-    @GetMapping("/show")
-    public List<User> toshow(User user){
+    @PostMapping("/checkregister")
 
-        List<User> userList = userService.showAll(user);
+    public int check(User user){
 
-        return  userList ;
+        List<User> check = userService.check( user );
+        if(check.size()==0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    /**
+     * 用户模块用户注册
+     */
+    @PostMapping("/register")
+    public int register(User user){
+        System.out.println(user);
+        int register = userService.register( user );
+        if(register==1){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    /**
+     * 用户模块根据id查看个人信息
+     */
+    @PostMapping("/show/{userId}")
+    public Result toshow(User user){
+        try{
+            List<User> userList = userService.showAll(user);
+            return Result.success( userList );
+        }catch (Exception e){
+            return  Result.error() ;
+        }
     }
 
 

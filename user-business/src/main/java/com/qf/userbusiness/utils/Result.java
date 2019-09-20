@@ -15,7 +15,6 @@ public class Result<T> {
         return result;
     }
 
-
     public static Result error() {
         Result result = new Result();
         result.setStatus(Constants.ERROR_STATUS_404);

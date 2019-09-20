@@ -18,13 +18,33 @@
 
     <select id="showAll" resultMap="BaseResultMap">
 
+        select * from  user
 
+        where
+
+        user_id=#{userId}
+
+    </select>
+
+    <insert id="register">
+
+        insert into user
+        (name,password,user_id,order_id,carnumber,phone)
+        values
+        (#{name},#{password},#{userId},#{orderId},#{carnumber},#{phone})
+    </insert>
+
+    <select id="check" resultMap="BaseResultMap">
+
+        select * from user
+
+        where
+
+        name=#{name}
 
     </select>
 
 
-    <insert id="register">
 
 
-    </insert>
 </mapper>

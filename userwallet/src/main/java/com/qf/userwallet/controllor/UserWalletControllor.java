@@ -14,8 +14,6 @@ public class UserWalletControllor {
      * 钱包模块的查询发方法
      * @return
      * get方法-----》@PathVariable接收前端的值
-     *
-     *
      */
     @GetMapping("/selcect/{user_id}")
     public List<Wallet> selcect( @PathVariable("user_id") Integer user_id){
@@ -24,10 +22,7 @@ public class UserWalletControllor {
         List<Wallet> walletList = walletService.selectAll(user_id);
 
         return walletList;
-
     }
-
-
     @PostMapping("/insevt")
     public int insevt(){
 

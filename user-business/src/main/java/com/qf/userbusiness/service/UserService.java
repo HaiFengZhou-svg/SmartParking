@@ -20,7 +20,13 @@ public interface UserService{
 
 
     /**
-     * 个人信息方法
+     * 验证用户名
+     */
+    List<User> check(User user);
+
+
+    /**
+     * 根据用户的user_id查看个人信息方法
      */
     List<User> showAll(User user);
 }

@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<User> check(User user) {
+        return userMapper.check( user );
+    }
+
+    @Override
     public List<User> showAll(User user) {
         return userMapper.showAll( user );
     }

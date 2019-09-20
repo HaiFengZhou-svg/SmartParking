@@ -19,6 +19,12 @@ public interface UserMapper {
 
 
     /**
+     * 验证用户名
+     */
+    List<User> check(User user);
+
+
+    /**
      * 个人信息方法
      */
     List<User> showAll(User user);
