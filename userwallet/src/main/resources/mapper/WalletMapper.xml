@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.userwallet.mapper.WalletMapper">
+  <resultMap id="BaseResultMap" type="com.qf.userwallet.domain.entity.Wallet">
+    <!--@mbg.generated-->
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="wallet_sum" jdbcType="DOUBLE" property="walletSum" />
+    <result column="invest_time" jdbcType="TIMESTAMP" property="investTime" />
+    <result column="wallet_flag" jdbcType="INTEGER" property="walletFlag" />
+    <result column="card_Number" jdbcType="INTEGER" property="cardNumber" />
+  </resultMap>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+
+        select  * from  wallet
+
+        where
+
+        user_id=#{user_id}
+
+
+
+
+
+    </select>
+
+</mapper>
