@@ -3,9 +3,11 @@ package com.qf.userbusiness.controllor;
 import com.qf.userbusiness.domain.entity.User;
 import com.qf.userbusiness.service.UserService;
 import com.qf.userbusiness.utils.Result;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
@@ -23,18 +25,64 @@ public class UserControllor {
 
     /**
      * 调用waller模块查看钱包信息的方法
+     * 单个参数接受-PathVariable
      */
-    @GetMapping("/test/{id}")
-    public Result USE(@PathVariable("id") Integer id){
+    @GetMapping("/wallet/{userId}")
+    public Result USE(@PathVariable("userId") Integer userId){
         try{
             ResponseEntity<String> entity = restTemplate.getForEntity(
-                    //访问另外的模块的功能的接口地址  地址：端口+前缀.../参数
-                    "http://localhost:9001/wallet/selcect/{user_id}", String.class,id);
+                    //访问另外的模块的功能的接口地址  地址：端口+前缀.../参数 uri
+                    "http://localhost:9001/wallet/selcect/{userId}", String.class,userId);
             return Result.success( entity );
         }catch (Exception e){
             return Result.error();
         }
     }
+
+    /**
+     * 通过getForEntity调用模块 查看订所有单信息
+     */
+    @GetMapping("/order")
+    public Result checkOrder(){
+        try{
+            ResponseEntity<String> entity = restTemplate.getForEntity( "http://10.3.135.229:8080/order/all",            String.class );
+            return Result.success( entity );
+        }catch (Exception e){
+            return Result.error();
+        }
+    }
+
+    /**
+     * 根据getForEntity请求方式  user_id查看订单信息
+     */
+    @GetMapping("/order/{userId}")
+    public Result checkOrderRyId(@PathVariable("userId") Integer userId) {
+        try {
+            ResponseEntity<String> entity = restTemplate.getForEntity( "http://10.3.135" +
+                    ".229:8080/order/id/{userId}", String.class, userId );
+            return Result.success( entity );
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
+
+    /**
+     * 根据postForForEntity请求方式  user_id查看订单信息
+     */
+  /*  @PostMapping("/order2")
+    public Result checkOrderRyId2( ) {
+
+        try {
+            ResponseEntity<String> entity = restTemplate.postForEntity( "http://10.3.135.229/order/all",userId,String.class );
+
+            return Result.success( entity );
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }*/
+
+
+
 
 
 
@@ -114,11 +162,5 @@ public class UserControllor {
             return  Result.error() ;
         }
     }
-
-
-
-
-
-
 
 }

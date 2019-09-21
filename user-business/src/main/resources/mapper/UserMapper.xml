@@ -9,6 +9,7 @@
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="carnumber" jdbcType="INTEGER" property="carnumber" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+
   </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
 
